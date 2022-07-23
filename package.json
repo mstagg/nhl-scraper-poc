@@ -8,9 +8,12 @@
     "prebuild": "yarn clean",
     "build": "tsc",
     "prestart:listener": "yarn build",
-    "start:listener": "node ./dist/scripts/mock-listener.js",
+    "start:listener": "node ./dist/src/scripts/mock-listener.js",
+    "prestart:stepfunction": "yarn build",
+    "start:stepfunction": "node ./dist/src/scripts/mock-step-function.js",
     "pretest": "yarn build",
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "sqlite:clear": "rm ./src/models/sequelize/sqlite/*.sqlite"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.18.9",

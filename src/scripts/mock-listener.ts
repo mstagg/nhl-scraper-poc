@@ -1,5 +1,7 @@
 import { ScheduledEvent } from "aws-lambda";
 import { handler } from "../lambdas/nhl-listener";
+import { SequelizeGameModel } from "../models/Game";
+import { SequelizePlayerModel } from "../models/Player";
 
 const EVENT_DATE_STRING = new Date("2022-05-09");
 
@@ -15,4 +17,13 @@ const MOCK_CLOUDWATCH_SCHEDULED_EVENT: ScheduledEvent<any> = {
   detail: {},
 };
 
-handler(MOCK_CLOUDWATCH_SCHEDULED_EVENT);
+const run = async (event: ScheduledEvent<any>) => {
+  // This is a hack, just ensures database tables are always initialized correctly for local dev
+  // Never do this in a prod environment, or anything that isnt a proof of concept
+  await SequelizeGameModel.sync({ alter: true });
+  await SequelizePlayerModel.sync({ alter: true });
+
+  await handler(event);
+};
+
+run(MOCK_CLOUDWATCH_SCHEDULED_EVENT);

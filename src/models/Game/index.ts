@@ -15,17 +15,15 @@ export const SequelizeGameModel = sequelize.define("Game", {
     allowNull: false,
     unique: true,
   },
-  status: {
+  gameStatus: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  ListenerStatus: {
+  listenerStatus: {
     type: DataTypes.STRING,
     allowNull: false,
   },
 });
-
-SequelizeGameModel.sync({ alter: true });
 
 export interface GameConsructorArgs {
   id?: number;
@@ -76,7 +74,8 @@ export class Game {
     logger: Logger // this is lazy
   ) {
     try {
-      await SequelizeGameModel.upsert(this.toRecord());
+      const g = await SequelizeGameModel.upsert(this.toRecord());
+      this.id = g[0].toJSON().id;
     } catch (e) {
       logger.error("Failed to upsert Game into sqlite", {
         error: e,
@@ -94,7 +93,7 @@ export class Game {
   ) {
     const params = {
       stateMachineArn: "MOCK_ARN",
-      input: JSON.stringify(game),
+      input: JSON.stringify({ game }),
       name: "MOCK_NAME",
       traceHeader: "MOCK_HEADER",
     };
