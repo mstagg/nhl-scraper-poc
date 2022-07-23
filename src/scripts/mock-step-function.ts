@@ -1,4 +1,4 @@
-import { handler as fetchBoxScoreHandler } from "../lambdas/game-listener/fetch-game-state";
+import { handler as fetchGameStateHandler } from "../lambdas/game-listener/fetch-game-state";
 import { handler as recordPlayerStatsHandler } from "../lambdas/game-listener/record-player-stats";
 import {
   handler as startHandler,

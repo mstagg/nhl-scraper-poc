@@ -14,6 +14,7 @@ const stop = async (event: StartEvent) => {
   if (!game) {
     throw new Error("Game Not Found");
   }
+  game.gameStatus = event.game.gameData.status.statusCode;
   game.listenerStatus = ListenerStatus.inactive;
 
   await game.save(logger);
