@@ -4,7 +4,7 @@ import { Logger } from "../../utils/logger";
 import { sequelize } from "../sequelize";
 import { ListenerStatus } from "./types";
 
-const SequelizeGameModel = sequelize.define("Game", {
+export const SequelizeGameModel = sequelize.define("Game", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -27,24 +27,24 @@ const SequelizeGameModel = sequelize.define("Game", {
 
 SequelizeGameModel.sync({ alter: true });
 
-interface GameConsructorArgs {
+export interface GameConsructorArgs {
   id?: number;
   externalId: number;
-  status: GameStatusCode;
+  gameStatus: GameStatusCode;
   listenerStatus: ListenerStatus;
 }
 
 interface GameSerialized {
   id: number;
   externalId: number;
-  status: GameStatusCode;
+  gameStatus: GameStatusCode;
   listenerStatus: ListenerStatus;
 }
 
 export class Game {
   id?: number;
   externalId: number;
-  status: GameStatusCode;
+  gameStatus: GameStatusCode;
   listenerStatus: ListenerStatus;
 
   constructor(args: GameConsructorArgs) {
@@ -55,7 +55,7 @@ export class Game {
     return {
       id: this.id,
       externalId: this.externalId,
-      status: this.status,
+      gameStatus: this.gameStatus,
       listenerStatus: this.listenerStatus,
     };
   }
@@ -67,13 +67,22 @@ export class Game {
     return {
       id: this.id,
       externalId: this.externalId,
-      status: this.status,
+      gameStatus: this.gameStatus,
       listenerStatus: this.listenerStatus,
     };
   }
 
-  async save() {
-    SequelizeGameModel.upsert(this.toRecord());
+  async save(
+    logger: Logger // this is lazy
+  ) {
+    try {
+      await SequelizeGameModel.upsert(this.toRecord());
+    } catch (e) {
+      logger.error("Failed to upsert Game into sqlite", {
+        error: e,
+      });
+      throw e;
+    }
   }
 
   static async getByExternalId(
