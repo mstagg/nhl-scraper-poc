@@ -17,7 +17,7 @@ run `yarn install`
 
 Depending on the service you want to use, run `yarn start:listener` or `yarn start:stepfunction` or `yarn start:nhlservice`. Run those in order to ensure data is populated for the REST API in nhl-service.
 
-Some utility scripts
+Some utility scripts:
 - `yarn build` -> transpiles the app to `/dist`
 - `yarn sqlite:clear` -> clears the local SQLite databases, they will be rebuilt on next start command
 - `yarn test` -> runs a small suite of unit tests
@@ -72,6 +72,8 @@ I --> J[Stop]
 ### NHL-Service
 
 The NHL-Service is represented by the `src/lambda/nhl-service.ts` file. You can run it as a mock lambda service locally by running the command: `start:nhlservice`. The chart below details the route you can use to query player statistics after they are populated in the local database.
+
+`http://localhost:8080/v1/game/2017020659` should return results if you ran the other two scripts with the default event values.
 
 | Resource                                                | Description                                                        | Params                                        | Notes                                                                                                                                                                                                                                                                                                                  |
 | :------------------------------------------------------ | :----------------------------------------------------------------- | :-------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
