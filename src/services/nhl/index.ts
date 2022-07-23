@@ -15,7 +15,10 @@ export class NhlAPI {
       const res = await axios.get(urls.schedule({ date }));
       return res.data as Schedule;
     } catch (e) {
-      this.logger.error("Failed to fetch NHL schedule data", e);
+      this.logger.error("Failed to fetch NHL schedule data", {
+        error: e,
+        date,
+      });
       throw e;
     }
   }

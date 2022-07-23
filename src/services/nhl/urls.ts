@@ -3,7 +3,7 @@ interface ScheduleQueryArgs {
 }
 
 const formatQueryDate = (d: Date) => {
-  return `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()}`;
+  return `${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}`;
 };
 
 export const schedule = (queryArgs: ScheduleQueryArgs) => {
