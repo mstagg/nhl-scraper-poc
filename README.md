@@ -9,7 +9,7 @@ This repo consists of three main parts:
  -  `game-listener`
  -  `nhl-service`
 
-The purpose and structure of these services are explained further down in this document. I have provided simple scripts to run each service locally. These services all share models, services, and a local SQLite database. Each service assumes the user is using `yarn` and is using `npm v14+`.
+The purpose and structure of these services are explained further down in this document. I have provided simple scripts to run each service locally. These services all share models, services, and a local SQLite database. Each service assumes the user is using `yarn` and is using `node v14+`.
 
 To Start:
 
