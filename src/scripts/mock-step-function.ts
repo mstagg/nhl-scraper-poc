@@ -68,7 +68,7 @@ const MOCK_EVENT: StartEvent = {
   },
 };
 
-// simulates "loops" through the stepfunction state machine
+// simulates running the stepfunction state machine
 const runLambdas = async (initialEvent: StartEvent) => {
   // This is a hack, just ensures database tables are always initialized correctly for local dev
   // Never do this in a prod environment, or anything that isnt a proof of concept
@@ -76,9 +76,17 @@ const runLambdas = async (initialEvent: StartEvent) => {
   await SequelizePlayerModel.sync({ alter: true });
 
   let gameState: GameFeed;
+  // This would be the entrypoint for our stepfunction, the first lambda that is called. It should only be called once.
+  const initialEventOutput = await startHandler(initialEvent);
+
+  // This simulates the main loop of the state machine. As long as the game is in a 'live' status, it will continue to poll
+  // for updated player stats from the game and write them to our DB. There is some arbitray time delay inbetween each
+  // loop, maybe 10-15 seconds.
   do {
-    const initialEventOutput = await startHandler(initialEvent);
+    // Get most up to date game state information
     gameState = await fetchBoxScoreHandler(initialEventOutput);
+
+    // For each player in the game, kick off parallel lambdas to fetch their up to date game stats, then write them to our DB.
     const playerStatPromises = Object.entries(gameState.gameData.players).map(
       (x) =>
         recordPlayerStatsHandler({
@@ -87,9 +95,10 @@ const runLambdas = async (initialEvent: StartEvent) => {
         })
     );
     await Promise.all(playerStatPromises);
-    // WAIT SOME ACCEPTABLE PERIOD OF TIME IN THE STATE MACHINE, MAYBE 15 SECONDS?
+    // HERE: WAIT SOME ACCEPTABLE PERIOD OF TIME IN THE STATE MACHINE, MAYBE 15 SECONDS?
   } while (!finalGameStates.includes(gameState.gameData.status.statusCode));
 
+  // Once the game is in a 'final' state, mark it as complete in our DB and end the stepfunction
   await stopHandler({ game: gameState });
 };
 runLambdas(MOCK_EVENT).then(() => console.log("mock step-function complete"));
