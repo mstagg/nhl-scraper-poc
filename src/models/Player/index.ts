@@ -189,4 +189,32 @@ export class Player {
       throw e;
     }
   }
+
+  static async getAllByExternalGameId(
+    logger: Logger, // this is lazy
+    externalGameId: number
+  ): Promise<Player[] | undefined> {
+    try {
+      const p = await SequelizePlayerModel.findAll({
+        where: {
+          externalGameId,
+        },
+      });
+      if (!p || p.length < 1) {
+        return undefined;
+      }
+      return p.map(
+        (x) =>
+          new Player({
+            ...x.toJSON(),
+          })
+      );
+    } catch (e) {
+      logger.error("Failed to fetch Players for Game from sqlite", {
+        error: e,
+        externalGameId,
+      });
+      throw e;
+    }
+  }
 }

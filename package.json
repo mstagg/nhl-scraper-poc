@@ -11,6 +11,8 @@
     "start:listener": "node ./dist/src/scripts/mock-listener.js",
     "prestart:stepfunction": "yarn build",
     "start:stepfunction": "node ./dist/src/scripts/mock-step-function.js",
+    "prestart:nhlservice": "yarn build",
+    "start:nhlservice": "node ./dist/src/lambdas/nhl-service.js",
     "pretest": "yarn build",
     "test": "yarn jest",
     "sqlite:clear": "rm ./src/models/sequelize/sqlite/*.sqlite"
@@ -20,6 +22,8 @@
     "@babel/preset-typescript": "^7.18.6",
     "@types/aws-lambda": "^8.10.101",
     "@types/jest": "^28.1.6",
+    "@types/koa": "^2.13.5",
+    "@types/koa-router": "^7.4.4",
     "@types/node": "^18.0.6",
     "jest": "^28.1.3",
     "ts-jest": "^28.0.7",
@@ -28,6 +32,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
+    "koa": "^2.13.4",
+    "koa-router": "^12.0.0",
     "sequelize": "^6.21.3",
     "sqlite3": "^5.0.10"
   }

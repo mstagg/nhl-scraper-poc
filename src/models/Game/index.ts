@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { GameStatusCode, ScheduleGame } from "../../services/nhl/types";
 import { Logger } from "../../utils/logger";
+import { Player } from "../Player";
 import { sequelize } from "../sequelize";
 import { ListenerStatus } from "./types";
 
@@ -81,6 +82,19 @@ export class Game {
         error: e,
       });
       throw e;
+    }
+  }
+
+  async playerStats(logger: Logger, options: { externalPlayerIds?: number[] }) {
+    if (options.externalPlayerIds) {
+      const playerStats = await Promise.all(
+        options.externalPlayerIds.map((x) =>
+          Player.getByExternalId(logger, x, this.externalId)
+        )
+      );
+      return playerStats.filter((x) => x !== undefined) as Player[];
+    } else {
+      return await Player.getAllByExternalGameId(logger, this.externalId);
     }
   }
 

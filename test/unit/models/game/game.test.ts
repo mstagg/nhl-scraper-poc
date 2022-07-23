@@ -70,7 +70,7 @@ describe("Game", () => {
     test("should call sequelize upsert with correct params", async () => {
       const sequelizeSpy = jest
         .spyOn(SequelizeGameModel, "upsert")
-        .mockResolvedValue({} as any);
+        .mockResolvedValue([{ toJSON: () => ({ ...DEFAULT_PARAMS }) }] as any);
 
       await model.save(logger);
       expect(sequelizeSpy).toHaveBeenCalledWith(model.toRecord());
