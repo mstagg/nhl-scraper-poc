@@ -4,12 +4,17 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "clean": "rm -r ./dist",
+    "prebuild": "yarn clean",
     "build": "tsc",
     "prestart:listener": "yarn build",
-    "start:listener": "node ./dist/listener.js"
+    "start:listener": "node ./dist/scripts/mock-listener.js"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.101",
     "typescript": "^4.7.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
 }
