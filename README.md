@@ -15,7 +15,7 @@ To Start:
 
 run `yarn install`
 
-depending on the service you want to use, run `yarn start:listener` or `yarn start:stepfunction` or `yarn start:nhlservice`. Run those in order to ensure data is populated for the REST API in nhl-service.
+Depending on the service you want to use, run `yarn start:listener` or `yarn start:stepfunction` or `yarn start:nhlservice`. Run those in order to ensure data is populated for the REST API in nhl-service.
 
 Some utility scripts
 - `yarn build` -> transpiles the app to `/dist`
