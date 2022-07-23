@@ -27,6 +27,7 @@ module.exports = {
     },
     coveragePathIgnorePatterns: [
       '<rootDir>/test/',
+      '/src/utils/logger.ts', // this is all a mock anyways
       '/node_modules/',
     ],
     setupFilesAfterEnv: ['<rootDir>/test/unit/helpers/setup.ts'],

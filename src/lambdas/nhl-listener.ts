@@ -33,13 +33,7 @@ const pollNhlApi = async (event: ScheduledEvent) => {
   // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/StepFunctions.html#startExecution-property
   await Promise.all(
     gameListenersToStart.map((x) => {
-      const params = {
-        stateMachineArn: "MOCK_ARN",
-        input: JSON.stringify(x),
-        name: "MOCK_NAME",
-        traceHeader: "MOCK_HEADER",
-      };
-      logger.info("This is a mock step function invocation", params);
+      Game.startGameListener(logger, x);
     })
   );
 

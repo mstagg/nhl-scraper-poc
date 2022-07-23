@@ -40,7 +40,7 @@ export const finalGameStates = [
   GameStatusCode.finalGameOver,
 ];
 
-export interface Team {
+export interface ScheduleTeam {
   leagueRecord: {
     wins: number;
     losses: number;
@@ -55,7 +55,7 @@ export interface Team {
   };
 }
 
-export interface Game {
+export interface ScheduleGame {
   gamePk: number;
   link: string;
   gameType: GameTypeCode;
@@ -69,8 +69,8 @@ export interface Game {
     startTimeTBD: false; // this seems to be hardcoded to false in all API responses, including the game status definition response
   };
   teams: {
-    away: Team;
-    home: Team;
+    away: ScheduleTeam;
+    home: ScheduleTeam;
   };
   venue: {
     name: string;
@@ -87,7 +87,7 @@ export interface ScheduleDate {
   totalEvents: number;
   totalGames: number;
   totalMatches: number;
-  games: Game[];
+  games: ScheduleGame[];
   events: any[]; // Im not certain what eactly this type is, other than array
   matches: any[]; // Im not certain what eactly this type is, other than array
 }
@@ -98,7 +98,6 @@ export interface Schedule {
   totalEvents: number;
   totalGames: number;
   totalMatches: number;
-  metaData: { timeStamp: string };
   wait: number;
   dates: ScheduleDate[];
 }
