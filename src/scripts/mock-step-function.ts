@@ -84,7 +84,7 @@ const runLambdas = async (initialEvent: StartEvent) => {
   // loop, maybe 10-15 seconds.
   do {
     // Get most up to date game state information
-    gameState = await fetchBoxScoreHandler(initialEventOutput);
+    gameState = await fetchGameStateHandler(initialEventOutput);
 
     // For each player in the game, kick off parallel lambdas to fetch their up to date game stats, then write them to our DB.
     const playerStatPromises = Object.entries(gameState.gameData.players).map(

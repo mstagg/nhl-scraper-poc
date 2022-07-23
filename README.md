@@ -26,6 +26,8 @@ Some utility scripts
 
 This repo does not include any attempt to provision AWS environments, due to time constraints. However, each service is written to function as an [AWS Lambda](https://aws.amazon.com/lambda/) or a composition of lambdas. The code included in this repository attempts to mock remote services that would be leveraged in a production implementation. As such, the design below attampts to explain how this architecture would work if it was "properly" implemented in an AWS enviornment.
 
+This design is intended to scale well, be cost efficient, and simple. By leveraging lambdas and step-functions, we are able to only run services when games are running, without any wasted compute time or costs.
+
 ### Architecture
 
 This repo consists of three main parts:
