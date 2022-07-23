@@ -1,0 +1,15 @@
+{
+  "name": "hockey-scraper-spike",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "prestart:listener": "yarn build",
+    "start:listener": "node ./dist/listener.js"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {}
+}
